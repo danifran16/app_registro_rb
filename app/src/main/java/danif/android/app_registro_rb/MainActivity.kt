@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +17,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +41,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -177,16 +184,46 @@ fun RegistroItem(
     onDelete: () -> Unit
 ) {
     Column {
-        Text(text = "Nombre Registro:  ${registro.registro}")
-        Text(text = "Fecha:  ${registro.fecha}")
-        Text(text = "Tipo Registro:  ${registro.tipoRegistro}")
-    }
-    IconButton(onClick = onDelete) {
-        Icon(
-            imageVector = Icons.Filled.Delete,
-            contentDescription = "EliminarRegistro",
-            tint = Color.Red,
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val tipoRegistro = registro.tipoRegistro
+            val iconoTipoRegistro = when (tipoRegistro){
+                "Agua" -> Icons.Filled.AddCircle
+                "Luz" -> Icons.Filled.Call
+                "Gas" -> Icons.Filled.Warning
+                else -> Icons.Filled.Refresh
+            }
+
+            Icon(
+                imageVector = iconoTipoRegistro,
+                contentDescription = "IconoTipoRegistro",
+                modifier = Modifier.padding(end = 8.dp),
+                tint = Color.Gray
+            )
+                Text(text = registro.tipoRegistro)
+
+        }
+
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = registro.registro)
+            Text(text = "Fecha:  ${registro.fecha}")
+//            Text(text = registro.tipoRegistro)
+
+            IconButton(onClick = onDelete) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "EliminarRegistro",
+                    tint = Color.Red,
+                )
+            }
+        }
+        HorizontalDivider()
     }
 }
 
