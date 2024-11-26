@@ -3,18 +3,15 @@ package danif.android.app_registro_rb
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
@@ -41,7 +38,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -186,7 +182,7 @@ fun RegistroItem(
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             val tipoRegistro = registro.tipoRegistro
             val iconoTipoRegistro = when (tipoRegistro){
@@ -199,17 +195,16 @@ fun RegistroItem(
                 imageVector = iconoTipoRegistro,
                 contentDescription = "IconoTipoRegistro",
                 modifier = Modifier.padding(end = 8.dp),
-                tint = Color.Gray
+                tint = Color.Cyan
             )
                 Text(text = registro.tipoRegistro)
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             Text(text = registro.registro)
             Text(text = "Fecha:  ${registro.fecha}")
-//            Text(text = registro.tipoRegistro)
 
             IconButton(onClick = onDelete) {
                 Icon(
