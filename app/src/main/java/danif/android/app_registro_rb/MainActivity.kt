@@ -44,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -68,7 +69,6 @@ fun AppRegistroServicios(
     navController: NavHostController = rememberNavController(),
 ) {
     val listaRegistros = remember { mutableStateListOf<RegistroClass>() }
-
     NavHost(
         navController = navController,
         startDestination = "inicio"
@@ -140,16 +140,17 @@ fun BannerNav(
 
 
 // Pagina de inicio y muestra de registros
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "en")
 @Composable
 fun PageInicioUI(
     onButtonSettingsClicked:() -> Unit = {},
     registros: MutableList<RegistroClass>
 ) {
+    val contexto = LocalContext.current
     Scaffold(
         topBar = {
             BannerNav(
-                title = "Listado Tareas",
+                title = contexto.getString(R.string.titulo_inicio),
                 onButtonSettingsClicked = onButtonSettingsClicked
             )
         },
@@ -162,7 +163,6 @@ fun PageInicioUI(
                 Text(
                     text = "Registros"
                 )
-
                 LazyColumn(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp))
                 {
                     items(registros.size) { index: Int ->
@@ -195,7 +195,6 @@ fun RegistroItem(
                 "Gas" -> Icons.Filled.Warning
                 else -> Icons.Filled.Refresh
             }
-
             Icon(
                 imageVector = iconoTipoRegistro,
                 contentDescription = "IconoTipoRegistro",
@@ -203,10 +202,7 @@ fun RegistroItem(
                 tint = Color.Gray
             )
                 Text(text = registro.tipoRegistro)
-
         }
-
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -228,15 +224,16 @@ fun RegistroItem(
 }
 
 
-
 //Pagina de registros
 //@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "en")
 @Composable
 fun AgregarRegistrosPageUI(
     onBackButtonClicked:() -> Unit = {},
     registros: MutableList<RegistroClass>
 ) {
+    val contexto = LocalContext.current
+
     var registroMedidorValue by remember { mutableStateOf("") }
     var registroFechaValue by remember { mutableStateOf("") }
     var selectedOption by remember { mutableStateOf("Agua") }
@@ -244,55 +241,44 @@ fun AgregarRegistrosPageUI(
     Scaffold(
         topBar = {
             BannerNav(
-                title = "Agregar registros",
+                title = contexto.getString(R.string.titulo_agregar),
                 showSettingsButton = false,
                 showBackButton = true,
                 onBackButtonClicked = onBackButtonClicked
             )
         },
         content = { paddingValues ->
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 30.dp, vertical = paddingValues.calculateTopPadding())
             ){
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     value = registroMedidorValue,
                     placeholder = { Text(text = "ingrese registro") },
                     onValueChange = { registroMedidorValue = it },
                     modifier = Modifier.fillMaxWidth()
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     value = registroFechaValue,
-                    placeholder = { Text(text = "ingrese registro") },
+                    placeholder = { Text(text = "ingrese fecha") },
                     onValueChange = { registroFechaValue = it },
                     modifier = Modifier.fillMaxWidth()
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Text(
-                    text = "Tipo de medidior:",
+                    text =  contexto.getString(R.string.form_tipo_medidor),
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 //Opcion Agua
                 Row {
                     RadioButton(
                         selected = selectedOption == "Agua",
                         onClick = { selectedOption = "Agua" }
                     )
-                    Text(
-                        text = "Agua"
-                    )
+                    Text(text = contexto.getString(R.string.form_select_agua))
                 }
                 //Opcion Luz
                 Row {
@@ -300,9 +286,7 @@ fun AgregarRegistrosPageUI(
                         selected = selectedOption == "Luz",
                         onClick = { selectedOption = "Luz" }
                     )
-                    Text(
-                        text = "Luz"
-                    )
+                    Text(text =  contexto.getString(R.string.form_select_luz))
                 }
                 //Opcion Gas
                 Row {
@@ -310,13 +294,9 @@ fun AgregarRegistrosPageUI(
                         selected = selectedOption == "Gas",
                         onClick = { selectedOption = "Gas" }
                     )
-                    Text(
-                        text = "Gas"
-                    )
+                    Text(text =  contexto.getString(R.string.form_select_gas))
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Button(
                     onClick = {
                         val registro = RegistroClass(
@@ -328,7 +308,7 @@ fun AgregarRegistrosPageUI(
                         registros.add(registro)
                     }
                 ) {
-                Text("Agregar Registro")
+                Text(contexto.getString(R.string.btn_agregar_registro))
                 }
             }
         }
